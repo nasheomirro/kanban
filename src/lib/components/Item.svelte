@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Item } from "$lib/app";
+	import type { ItemType } from "$lib/app";
 
-  export let item: Item;
+  export let item: ItemType;
 </script>
 
 <div>

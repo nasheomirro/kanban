@@ -1,12 +1,12 @@
-import type { Board } from '.';
+import type { BoardType } from '.';
 
-export function getBoards() {
+export function getBoards(): BoardType[] {
 	const str = localStorage.getItem('boards');
-	const boards: Board[] = str ? JSON.parse(str) : [];
+	const boards: BoardType[] = str ? JSON.parse(str) : [];
 
 	return boards;
 }
 
-export function setBoards(boards: Board[]) {
+export function setBoards(boards: BoardType[]) {
 	localStorage.setItem('boards', JSON.stringify(boards));
 }

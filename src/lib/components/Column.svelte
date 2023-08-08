@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { Column } from "$lib/app";
+	import type { ColumnType } from "$lib/app";
 	import Item from "./Item.svelte";
 
-  export let column: Column;
+  export let column: ColumnType;
 </script>
 
 <li>
+  <span>{column.name}</span>
   <ul>
     {#each column.items as item}
       <Item {item} />
