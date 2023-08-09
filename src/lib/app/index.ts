@@ -16,7 +16,6 @@ export type ColumnType = {
 export type ItemType = {
 	readonly id: string;
 	name: string;
-	description: string;
 };
 
 function createStore() {
@@ -38,9 +37,9 @@ function createStore() {
 	};
 
 	const addBoard = (board: BoardType) => {
-		update(({ boards, ...store }) => ({ ...store, boards: [...boards, board] }));
+		update(({ boards, ...store }) => ({ ...store, id: board.id, boards: [...boards, board] }));
 	};
-	const updateBoard = (board: Partial<BoardType>) => {
+	const updateBoard = (board: SpecificRequired<Partial<BoardType>, "id">) => {
 		update(({ boards, ...store }) => ({
 			...store,
 			boards: boards.map((_board) => (_board.id === board.id ? { ..._board, ...board } : _board))
@@ -70,7 +69,7 @@ function createStore() {
 	const addColumn = (board: BoardType, column: ColumnType) => {
 		updateBoard({ ...board, columns: [...board.columns, column] });
 	};
-	const updateColumn = (board: BoardType, column: Partial<ColumnType>) => {
+	const updateColumn = (board: BoardType, column: SpecificRequired<Partial<ColumnType>, "id">) => {
 		updateBoard({
 			...board,
 			columns: board.columns.map((col) => (col.id === column.id ? { ...col, ...column } : col))
@@ -108,4 +107,4 @@ function createStore() {
 	};
 }
 
-export const store = createStore();
+export const app = createStore();

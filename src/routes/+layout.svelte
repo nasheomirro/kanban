@@ -1,10 +1,16 @@
-<script lang='ts'>
-	// The ordering of these imports is critical to your app working properly
+<script lang="ts">
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
-	// Most of your app wide CSS should be put in this file
-	import '../app.postcss';
+	import '../app.css';
+
+	import { Modal, setInitialClassState } from '@skeletonlabs/skeleton';
+	import AppBar from '$lib/components/AppBar.svelte';
+
+	setInitialClassState();
 </script>
 
-<slot />
+<div class="flex flex-col h-[100vh] w-[100vw]">
+  <Modal />
+  <AppBar />
+  <slot />
+</div>
