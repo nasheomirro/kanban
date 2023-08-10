@@ -7,7 +7,7 @@
 	import EditIcon from './icons/EditIcon.svelte';
 	import { dndzone, type DndEvent, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	export let board: BoardType;
 	let boardElement: HTMLUListElement;
@@ -63,7 +63,7 @@
 		const items = e.detail.items.filter((item) => {
 			// @ts-expect-error if things go south, a refresh should fix things,
 			// as long as the local storage state isn't "corrupted".
-			return !item[SHADOW_ITEM_MARKER_PROPERTY_NAME];
+			return !item[SHADOW_ITEM_MARKER_PROPERTY_NAME] && Object.keys(item).length === 3;
 		});
 		app.updateBoard({ ...board, columns: items });
 	}
@@ -92,15 +92,15 @@
 
 <ul
 	bind:this={boardElement}
-	use:dndzone={{ flipDurationMs: 100, items: board.columns, type: 'columns', dropTargetStyle: {} }}
+	use:dndzone={{ flipDurationMs: 200, items: board.columns, type: 'columns', dropTargetStyle: {} }}
 	on:consider={handleDndConsider}
 	on:finalize={handleDndFinalize}
-	class="w-full flex gap-4 items-start overflow-scroll p-3 grow"
+	class="w-full flex gap-4 items-start overflow-x-scroll overflow-y-hidden p-3 grow"
 >
 	{#each board.columns as column (column.id)}
 		<li
-			animate:flip={{ duration: 300 }}
-			class="relative rounded shadow-sm border border-surface-200-700-token bg-surface-100-800-token min-w-[18rem] max-h-full h-full p-3 flex flex-col"
+			animate:flip={{ duration: 200 }}
+			class="relative rounded shadow-sm border border-surface-200-700-token bg-surface-100-800-token min-w-[18rem] w-[18rem] max-h-full h-full flex flex-col"
 		>
 			<Column {board} {column} />
 		</li>

@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { getBoards, setBoards } from './storage';
+import type { SpecificRequired } from '$lib/utils';
 
 export type BoardType = {
 	readonly id: string;
@@ -39,7 +40,7 @@ function createStore() {
 	const addBoard = (board: BoardType) => {
 		update(({ boards, ...store }) => ({ ...store, id: board.id, boards: [...boards, board] }));
 	};
-	const updateBoard = (board: SpecificRequired<Partial<BoardType>, "id">) => {
+	const updateBoard = (board: SpecificRequired<Partial<BoardType>, 'id'>) => {
 		update(({ boards, ...store }) => ({
 			...store,
 			boards: boards.map((_board) => (_board.id === board.id ? { ..._board, ...board } : _board))
@@ -69,7 +70,7 @@ function createStore() {
 	const addColumn = (board: BoardType, column: ColumnType) => {
 		updateBoard({ ...board, columns: [...board.columns, column] });
 	};
-	const updateColumn = (board: BoardType, column: SpecificRequired<Partial<ColumnType>, "id">) => {
+	const updateColumn = (board: BoardType, column: SpecificRequired<Partial<ColumnType>, 'id'>) => {
 		updateBoard({
 			...board,
 			columns: board.columns.map((col) => (col.id === column.id ? { ...col, ...column } : col))
@@ -82,7 +83,11 @@ function createStore() {
 	const addItem = (board: BoardType, column: ColumnType, item: ItemType) => {
 		updateColumn(board, { ...column, items: [...column.items, item] });
 	};
-	const updateItem = (board: BoardType, column: ColumnType, item: Partial<ItemType>) => {
+	const updateItem = (
+		board: BoardType,
+		column: ColumnType,
+		item: SpecificRequired<Partial<ItemType>, 'id'>
+	) => {
 		updateColumn(board, {
 			...column,
 			items: column.items.map((_item) => (item.id === _item.id ? { ..._item, ...item } : _item))

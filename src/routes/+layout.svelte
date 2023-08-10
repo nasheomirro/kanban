@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex flex-col h-[100vh] w-[100vw]">
-  <Modal />
+  <Modal duration={200} />
   <AppBar />
   <slot />
 </div>
