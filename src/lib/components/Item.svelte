@@ -16,6 +16,7 @@
 
 <script lang="ts">
 	import EditIcon from './icons/EditIcon.svelte';
+	import TrashIcon from './icons/TrashIcon.svelte';
 
 	export let board: BoardType;
 	export let column: ColumnType;
@@ -25,6 +26,13 @@
 
 	let form: HTMLFormElement;
 	$: ({ text, toggled } = $state[item.id]);
+
+  const deleteSelf = async () => {
+    app.deleteItem(board, column, item.id);
+    await tick();
+    // @ts-expect-error remove self from cache
+    $state[item.id] = undefined;
+  }
 
 	const showForm = async () => {
 		$state[item.id].toggled = true;
@@ -53,9 +61,14 @@
 <div class="card bg-surface-200-700-token p-3 pr-2">
 	<div class="flex" class:hidden={toggled}>
 		<span class="grow">{item.name}</span>
-		<button on:click={showForm} class="btn-icon btn-icon-sm transition w-[1.5rem] h-[1.5rem] p-1.5">
-			<EditIcon />
-		</button>
+		<div class="flex flex-col">
+      <button on:click={showForm} class="btn-icon btn-icon-sm transition w-[1.5rem] h-[1.5rem] p-1.5">
+        <EditIcon />
+      </button>
+      <button on:click={deleteSelf} class="btn-icon btn-icon-sm transition w-[1.5rem] h-[1.5rem] p-1">
+        <TrashIcon />
+      </button>
+    </div>
 	</div>
 
 	<form class:hidden={!toggled} on:submit={submitForm} class="space-y-2" bind:this={form}>
