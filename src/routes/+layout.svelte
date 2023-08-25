@@ -9,6 +9,10 @@
 	setInitialClassState();
 </script>
 
+<svelte:head>
+  <title>Personal Kanban Board</title>
+</svelte:head>
+
 <div class="flex flex-col h-[100vh] w-[100vw]">
   <Modal duration={200} />
   <AppBar />
